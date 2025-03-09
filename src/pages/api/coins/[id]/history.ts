@@ -1,5 +1,7 @@
 // pages/api/coins/[id]/history.ts
-import type { NextApiRequest, NextApiResponse } from 'next'; import axios from 'axios'; import { fetchWithCache } from '../../../../lib/redis';
+import type { NextApiRequest, NextApiResponse } from 'next'; 
+import axios from 'axios'; 
+import { fetchWithCache } from '../../../../lib/redis';
 
 type PricePoint = {
   timestamp: number;
