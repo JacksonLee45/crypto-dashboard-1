@@ -22,9 +22,21 @@ export function useTopCoins(limit = 100) {
       const response = await axios.get(`/api/coins?limit=${limit}`);
       return response.data;
     },          
-      refetchInterval: 60000,       // Refetch every 60 seconds    
-      staleTime: 30000,             // Data is considered fresh for 30 seconds      
-      retry: 3,                     // If fetching fails, retry up to 3 times
-      //keepPreviousData: true        // Display cached data while refetching
-    });
+    refetchInterval: 60000,       // Refetch every 60 seconds    
+    staleTime: 30000,             // Data is considered fresh for 30 seconds      
+    retry: 3,                     // If fetching fails, retry up to 3 times
+  });
+}
+
+export function usePaginatedCoins(page = 1, perPage = 25) {
+  return useQuery<{coins: Coin[], totalCoins: number}>({
+    queryKey: ['paginatedCoins', page, perPage],
+    queryFn: async () => {
+      const response = await axios.get(`/api/coins/paginated?page=${page}&perPage=${perPage}`);
+      return response.data;
+    },          
+    refetchInterval: 60000,    
+    staleTime: 30000,          
+    retry: 3,
+  });
 }

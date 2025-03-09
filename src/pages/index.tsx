@@ -2,7 +2,15 @@
 import React from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
-import MarketOverview from '../components/MarketOverview'; import TopCoinsTable from '../components/TopCoinsTable'; import PriceChart from '../components/PriceChart'; import MarketDominance from '../components/MarketDominance'; import VolumeChart from '../components/VolumeChart'; import NewsFeed from '../components/NewsFeed'; import { useMarketOverview } from '../hooks/useMarketOverview'; import { useTopCoins } from '../hooks/useTopCoins'; import { usePriceData } from '../hooks/usePriceData';
+import MarketOverview from '../components/MarketOverview'; 
+import TopCoinsTable from '../components/TopCoinsTable'; 
+import PriceChart from '../components/PriceChart'; 
+import MarketDominance from '../components/MarketDominance'; 
+import VolumeChart from '../components/VolumeChart'; 
+import NewsFeed from '../components/NewsFeed'; 
+import { useMarketOverview } from '../hooks/useMarketOverview'; 
+import { useTopCoins } from '../hooks/useTopCoins'; 
+import { usePriceData } from '../hooks/usePriceData';
 
 const Dashboard: React.FC = () => {
   // Fetch market overview data
@@ -71,7 +79,6 @@ const Dashboard: React.FC = () => {
             btcDominance={marketData.btcDominance}
             activeCurrencies={marketData.activeCurrencies}
             marketCapChange={marketData.marketCapChange}
-            //isLoading={marketLoading}
           />
         )}
 
@@ -100,12 +107,11 @@ const Dashboard: React.FC = () => {
 
         {/* Top Coins Table */}
         <div className="mb-6">
-          {coinsData && (
-            <TopCoinsTable
-              coins={coinsData}
-              isLoading={coinsLoading}
-            />
-          )}
+          {/* Use the new paginated table component */}
+          <TopCoinsTable
+            coins={coinsData}
+            isLoading={coinsLoading}
+          />
         </div>
 
         {/* Additional Charts and News Section */}
