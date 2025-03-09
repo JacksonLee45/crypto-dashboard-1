@@ -20,57 +20,40 @@ export default async function handler(
     const rangeValue = Array.isArray(range) ? range[0] : range;
 
     // Determine days and interval based on the requested range
+    // For free API, we just specify days, no interval parameter
     let days: number;
-    let interval: string;
 
     switch (rangeValue) {
       case '1d':
         days = 1;
-        interval = 'hourly';
         break;
       case '7d':
         days = 7;
-        interval = 'hourly';
         break;
       case '30d':
         days = 30;
-        interval = 'daily';
         break;
       case '90d':
         days = 90;
-        interval = 'daily';
         break;
       case '1y':
         days = 365;
-        interval = 'daily';
         break;
       default:
         days = 7;
-        interval = 'hourly';
-    }
-
-    // Get API key from environment variables
-    const apiKey = process.env.COINGECKO_API_KEY;
-
-    if (!apiKey) {
-      return res.status(500).json({ error: 'CoinGecko API key is missing' });
     }
 
     const data = await fetchWithCache<PricePoint[]>(
       `coin:${id}:history:${rangeValue}`,
       async () => {
-        // Fetch price history from CoinGecko with API key
+        // Fetch price history from CoinGecko - No API key required for basic endpoints
         const response = await axios.get(
           `https://api.coingecko.com/api/v3/coins/${id}/market_chart`,
           {
             params: {
               vs_currency: 'usd',
-              days: days,
-              interval: interval,
-              x_cg_demo_api_key: apiKey // Add API key to request
-            },
-            headers: {
-              'x-cg-demo-api-key': apiKey // Some APIs require the key in headers instead
+              days: days
+              // No interval parameter for free API
             }
           }
         );
@@ -81,13 +64,21 @@ export default async function handler(
           price: priceData[1]
         }));
       },
-      // Cache duration based on range
+      // Cache duration based on range - longer cache to avoid rate limits
       rangeValue === '1d' ? 300 : 1800 // 5 minutes for 1d, 30 minutes for others
     );
 
     res.status(200).json(data);
-  } catch (error) {
-    console.error('Error fetching price history:', error);
-    res.status(500).json({ error: 'Failed to fetch price history' });
+  } catch (error: any) {
+    console.error('Error fetching price history:',
+      error.response?.status,
+      error.response?.data || error.message
+    );
+
+    // Return a more detailed error response
+    res.status(500).json({
+      error: 'Failed to fetch price history',
+      details: error.response?.data || error.message
+    });
   }
 }
