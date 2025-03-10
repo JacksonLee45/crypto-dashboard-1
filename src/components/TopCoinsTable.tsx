@@ -1,5 +1,5 @@
 import React, { useState } from 'react'; 
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import Link from 'next/link';
 
 type Coin = {
@@ -186,6 +186,7 @@ const TopCoinsTable: React.FC<TopCoinsTableProps> = ({ coins = [], isLoading }) 
     <Card>
       <CardHeader>
         <CardTitle>Top Cryptocurrencies</CardTitle>
+        <CardDescription>Click on a coin for individual reports</CardDescription>
       </CardHeader>
       <CardContent>
         {isLoading ? (

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { 
   LineChart, 
   Line, 
@@ -9,6 +9,7 @@ import {
   ResponsiveContainer 
 } from 'recharts';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { TimeRange } from '@/hooks/usePriceData';
 
 type PricePoint = {
   timestamp: number;
@@ -20,16 +21,18 @@ type PriceChartProps = {
   coinName: string;
   priceData: PricePoint[];
   isLoading: boolean;
+  timeframe: TimeRange;
+  onTimeframeChange: (timeframe: TimeRange) => void;
 };
 
 const PriceChart: React.FC<PriceChartProps> = ({ 
   coinId, 
   coinName, 
   priceData, 
-  isLoading 
+  isLoading,
+  timeframe,
+  onTimeframeChange
 }) => {
-  const [timeframe, setTimeframe] = useState<'1d' | '7d' | '30d' | '90d' | '1y'>('7d');
-  
   const formatDate = (timestamp: number) => {
     const date = new Date(timestamp);
     
@@ -64,41 +67,41 @@ const PriceChart: React.FC<PriceChartProps> = ({
         <CardTitle>{coinName} Price Chart</CardTitle>
         <div className="flex space-x-1">
           <button
-            onClick={() => setTimeframe('1d')}
-            className={`px-3 py-1 text-sm rounded ${
-              timeframe === '1d' ? 'bg-blue-100 text-blue-800' : 'bg-gray-100'
+            onClick={() => onTimeframeChange('1d')}
+            className={`px-3 py-1 text-sm rounded cursor-pointer hover:bg-opacity-80 ${
+              timeframe === '1d' ? 'bg-blue-100 text-blue-800' : 'bg-gray-100 hover:bg-gray-200'
             }`}
           >
             24H
           </button>
           <button
-            onClick={() => setTimeframe('7d')}
-            className={`px-3 py-1 text-sm rounded ${
-              timeframe === '7d' ? 'bg-blue-100 text-blue-800' : 'bg-gray-100'
+            onClick={() => onTimeframeChange('7d')}
+            className={`px-3 py-1 text-sm rounded cursor-pointer hover:bg-opacity-80 ${
+              timeframe === '7d' ? 'bg-blue-100 text-blue-800' : 'bg-gray-100 hover:bg-gray-200'
             }`}
           >
             7D
           </button>
           <button
-            onClick={() => setTimeframe('30d')}
-            className={`px-3 py-1 text-sm rounded ${
-              timeframe === '30d' ? 'bg-blue-100 text-blue-800' : 'bg-gray-100'
+            onClick={() => onTimeframeChange('30d')}
+            className={`px-3 py-1 text-sm rounded cursor-pointer hover:bg-opacity-80 ${
+              timeframe === '30d' ? 'bg-blue-100 text-blue-800' : 'bg-gray-100 hover:bg-gray-200'
             }`}
           >
             30D
           </button>
           <button
-            onClick={() => setTimeframe('90d')}
-            className={`px-3 py-1 text-sm rounded ${
-              timeframe === '90d' ? 'bg-blue-100 text-blue-800' : 'bg-gray-100'
+            onClick={() => onTimeframeChange('90d')}
+            className={`px-3 py-1 text-sm rounded cursor-pointer hover:bg-opacity-80 ${
+              timeframe === '90d' ? 'bg-blue-100 text-blue-800' : 'bg-gray-100 hover:bg-gray-200'
             }`}
           >
             90D
           </button>
           <button
-            onClick={() => setTimeframe('1y')}
-            className={`px-3 py-1 text-sm rounded ${
-              timeframe === '1y' ? 'bg-blue-100 text-blue-800' : 'bg-gray-100'
+            onClick={() => onTimeframeChange('1y')}
+            className={`px-3 py-1 text-sm rounded cursor-pointer hover:bg-opacity-80 ${
+              timeframe === '1y' ? 'bg-blue-100 text-blue-800' : 'bg-gray-100 hover:bg-gray-200'
             }`}
           >
             1Y
@@ -106,54 +109,59 @@ const PriceChart: React.FC<PriceChartProps> = ({
         </div>
       </CardHeader>
       <CardContent>
-        {isLoading ? (
-          <div className="flex justify-center items-center h-64">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
-          </div>
-        ) : (
-          <>
-            <div className="flex items-baseline mb-4">
+        <div className="flex items-baseline mb-4">
+          {priceData && priceData.length > 0 ? (
+            <>
               <div className="text-3xl font-bold mr-3">
-                {priceData.length > 0 && formatPrice(priceData[priceData.length - 1].price)}
+                {formatPrice(priceData[priceData.length - 1].price)}
               </div>
               <div className={`text-sm font-medium ${priceChange >= 0 ? 'text-green-500' : 'text-red-500'}`}>
                 {priceChange >= 0 ? '↑' : '↓'} {Math.abs(priceChange).toFixed(2)}%
               </div>
+            </>
+          ) : (
+            <div className="text-3xl font-bold text-gray-300">Loading...</div>
+          )}
+        </div>
+        
+        <div className="h-64 relative">
+          {isLoading && (
+            <div className="absolute inset-0 flex justify-center items-center bg-white bg-opacity-70 z-10">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
             </div>
-            <div className="h-64">
-              <ResponsiveContainer width="100%" height="100%">
-                <LineChart data={priceData}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-                  <XAxis 
-                    dataKey="timestamp" 
-                    tickFormatter={formatDate} 
-                    tick={{ fontSize: 12 }}
-                    tickMargin={10}
-                  />
-                  <YAxis 
-                    dataKey="price" 
-                    tickFormatter={formatPrice} 
-                    tick={{ fontSize: 12 }}
-                    domain={['auto', 'auto']}
-                    tickMargin={10}
-                  />
-                  <Tooltip 
-                    formatter={(value: number) => [formatPrice(value), 'Price']}
-                    labelFormatter={(label: number) => new Date(label).toLocaleString()}
-                  />
-                  <Line 
-                    type="monotone" 
-                    dataKey="price" 
-                    stroke={priceColor} 
-                    dot={false} 
-                    strokeWidth={2}
-                    activeDot={{ r: 6 }}
-                  />
-                </LineChart>
-              </ResponsiveContainer>
-            </div>
-          </>
-        )}
+          )}
+          
+          <ResponsiveContainer width="100%" height="100%">
+            <LineChart data={priceData || []}>
+              <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+              <XAxis 
+                dataKey="timestamp" 
+                tickFormatter={formatDate} 
+                tick={{ fontSize: 12 }}
+                tickMargin={10}
+              />
+              <YAxis 
+                dataKey="price" 
+                tickFormatter={formatPrice} 
+                tick={{ fontSize: 12 }}
+                domain={['auto', 'auto']}
+                tickMargin={10}
+              />
+              <Tooltip 
+                formatter={(value: number) => [formatPrice(value), 'Price']}
+                labelFormatter={(label: number) => new Date(label).toLocaleString()}
+              />
+              <Line 
+                type="monotone" 
+                dataKey="price" 
+                stroke={priceColor} 
+                dot={false} 
+                strokeWidth={2}
+                activeDot={{ r: 6 }}
+              />
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
       </CardContent>
     </Card>
   );

@@ -1,5 +1,5 @@
 // pages/index.tsx
-import React from 'react';
+import React, { useState } from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import MarketOverview from '../components/MarketOverview'; 
@@ -10,9 +10,16 @@ import VolumeChart from '../components/VolumeChart';
 import NewsFeed from '../components/NewsFeed'; 
 import { useMarketOverview } from '../hooks/useMarketOverview'; 
 import { useTopCoins } from '../hooks/useTopCoins'; 
-import { usePriceData } from '../hooks/usePriceData';
+import { usePriceData, TimeRange } from '../hooks/usePriceData';
+import { useQueryClient } from '@tanstack/react-query';
 
 const Dashboard: React.FC = () => {
+  // Get the query client instance
+  const queryClient = useQueryClient();
+  
+  // State for timeframe selection
+  const [timeRange, setTimeRange] = useState<TimeRange>('7d');
+  
   // Fetch market overview data
   const {
     data: marketData,
@@ -25,11 +32,11 @@ const Dashboard: React.FC = () => {
     isLoading: coinsLoading
   } = useTopCoins();
 
-  // Fetch price data for the default coin (Bitcoin)
+  // Fetch price data for the default coin (Bitcoin) with the selected time range
   const {
     data: priceData,
     isLoading: priceLoading
-  } = usePriceData('bitcoin');
+  } = usePriceData('bitcoin', timeRange);
 
   // Mock data for market dominance
   const dominanceData = Array.isArray(coinsData)
@@ -52,6 +59,21 @@ const Dashboard: React.FC = () => {
     const hash = id.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
     return colors[hash % colors.length];
   }
+
+  // Handle timeframe change
+  const handleTimeRangeChange = (newTimeRange: TimeRange) => {
+    // Prefetch the data for the new time range to reduce perceived loading time
+    queryClient.prefetchQuery({
+      queryKey: ['priceData', 'bitcoin', newTimeRange],
+      queryFn: async () => {
+        const response = await fetch(`/api/coins/bitcoin/history?range=${newTimeRange}`);
+        return response.json();
+      }
+    });
+    
+    // Update the time range state
+    setTimeRange(newTimeRange);
+  };
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -79,6 +101,7 @@ const Dashboard: React.FC = () => {
             btcDominance={marketData.btcDominance}
             activeCurrencies={marketData.activeCurrencies}
             marketCapChange={marketData.marketCapChange}
+            isLoading={marketLoading}
           />
         )}
 
@@ -92,6 +115,8 @@ const Dashboard: React.FC = () => {
                 coinName="Bitcoin"
                 priceData={priceData}
                 isLoading={priceLoading}
+                timeframe={timeRange}
+                onTimeframeChange={handleTimeRangeChange}
               />
             )}
           </div>
