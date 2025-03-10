@@ -140,7 +140,7 @@ const Dashboard: React.FC = () => {
         </div>
 
         {/* Additional Charts and News Section */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-1 gap-6">
           {/* Volume Chart */}
           <div>
             <VolumeChart
@@ -156,13 +156,13 @@ const Dashboard: React.FC = () => {
             />
           </div>
 
-          {/* News Feed */}
+          {/* News Feed
           <div>
             <NewsFeed
               news={[]}
               isLoading={true}
             />
-          </div>
+          </div> */}
         </div>
       </main>
 
