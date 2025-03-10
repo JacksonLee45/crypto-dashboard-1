@@ -186,7 +186,7 @@ const TopCoinsTable: React.FC<TopCoinsTableProps> = ({ coins = [], isLoading }) 
     <Card>
       <CardHeader>
         <CardTitle>Top Cryptocurrencies</CardTitle>
-        <CardDescription>Click on a coin for individual reports</CardDescription>
+        <CardDescription>Click on a coin for individual metrics</CardDescription>
       </CardHeader>
       <CardContent>
         {isLoading ? (

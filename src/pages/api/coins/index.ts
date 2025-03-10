@@ -2,6 +2,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import axios from 'axios';
 import { fetchWithCache } from '../../../lib/redis';
+import { rateLimiter } from '../../../lib/rateLimit';
 
 type CoinData = {
   id: string;
@@ -16,10 +17,20 @@ type CoinData = {
   image: string;
 };
 
+// Create a rate limiter that allows 30 requests per minute per IP
+const limiter = rateLimiter({
+  maxRequests: 30,
+  windowMs: 60 * 1000, // 1 minute
+  message: 'Rate limit exceeded. Please wait before making additional requests.'
+});
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+  // Apply rate limiting
+  await limiter(req, res);
+  
   try {
     const limit = Number(req.query.limit) || 100;
     

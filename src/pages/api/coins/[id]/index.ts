@@ -2,6 +2,7 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import axios from 'axios';
 import { fetchWithCache } from '../../../../lib/redis';
+import { withApiMiddleware } from '../../../../lib/apiMiddleware';
 
 type CoinDetailResponse = {
   id: string;
@@ -33,7 +34,7 @@ type CoinDetailResponse = {
   github: string | null;
 };
 
-export default async function handler(
+async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
@@ -64,7 +65,7 @@ export default async function handler(
         
         const coinData = response.data;
         
-        // Extract and transform the data from the CoinGecko response
+        // Extract and transform the data
         return {
           id: coinData.id,
           rank: coinData.market_cap_rank,
@@ -105,3 +106,12 @@ export default async function handler(
     res.status(500).json({ error: 'Failed to fetch coin details' });
   }
 }
+
+// Apply rate limiting middleware with 20 requests per minute
+export default withApiMiddleware(handler, {
+  rateLimit: {
+    maxRequests: 20,
+    windowMs: 60 * 1000, // 1 minute
+    message: 'Rate limit exceeded for coin detail API. Please try again later.'
+  }
+});

@@ -3,6 +3,7 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import axios from 'axios';
 import { fetchWithCache } from '../../../lib/redis';
 import { createLogger } from '../../../lib/logger';
+import { rateLimiter } from '../../../lib/rateLimit';
 
 type MarketOverviewData = {
   totalMarketCap: number;
@@ -12,6 +13,12 @@ type MarketOverviewData = {
   marketCapChange: number;
 };
 
+// Create a rate limiter that allows 30 requests per minute per IP
+const limiter = rateLimiter({
+  maxRequests: 30,
+  windowMs: 60 * 1000, // 1 minute
+  message: 'Rate limit exceeded. Please wait before making additional requests.'
+});
 // Create a logger instance for this API route
 const logger = createLogger('API:MarketOverview');
 
@@ -24,6 +31,8 @@ export default async function handler(
 
   // Log the incoming request
   logger.logRequest(req, { requestId });
+
+  await limiter(req, res);
 
   try {
     const data = await fetchWithCache<MarketOverviewData>(

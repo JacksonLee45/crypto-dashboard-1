@@ -2,13 +2,15 @@
 import type { NextApiRequest, NextApiResponse } from 'next'; 
 import axios from 'axios'; 
 import { fetchWithCache } from '../../../../lib/redis';
+import { withApiMiddleware } from '../../../../lib/apiMiddleware';
+import { API_CONFIG } from '../../../../config/api';
 
 type PricePoint = {
   timestamp: number;
   price: number;
 };
 
-export default async function handler(
+async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
@@ -22,7 +24,6 @@ export default async function handler(
     const rangeValue = Array.isArray(range) ? range[0] : range;
 
     // Determine days and interval based on the requested range
-    // For free API, we just specify days, no interval parameter
     let days: number;
 
     switch (rangeValue) {
@@ -45,17 +46,22 @@ export default async function handler(
         days = 7;
     }
 
+    // Choose cache duration based on data range
+    const cacheDuration = 
+      rangeValue === '1d' 
+        ? API_CONFIG.cacheDuration.short 
+        : API_CONFIG.cacheDuration.medium;
+
     const data = await fetchWithCache<PricePoint[]>(
       `coin:${id}:history:${rangeValue}`,
       async () => {
-        // Fetch price history from CoinGecko - No API key required for basic endpoints
+        // Fetch price history from CoinGecko
         const response = await axios.get(
           `https://api.coingecko.com/api/v3/coins/${id}/market_chart`,
           {
             params: {
               vs_currency: 'usd',
               days: days
-              // No interval parameter for free API
             }
           }
         );
@@ -66,8 +72,7 @@ export default async function handler(
           price: priceData[1]
         }));
       },
-      // Cache duration based on range - longer cache to avoid rate limits
-      rangeValue === '1d' ? 300 : 1800 // 5 minutes for 1d, 30 minutes for others
+      cacheDuration
     );
 
     res.status(200).json(data);
@@ -77,10 +82,14 @@ export default async function handler(
       error.response?.data || error.message
     );
 
-    // Return a more detailed error response
     res.status(500).json({
       error: 'Failed to fetch price history',
       details: error.response?.data || error.message
     });
   }
 }
+
+// Apply rate limiting middleware
+export default withApiMiddleware(handler, {
+  rateLimit: API_CONFIG.rateLimit.standard
+});
