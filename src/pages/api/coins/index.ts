@@ -17,6 +17,18 @@ type CoinData = {
   image: string;
 };
 
+interface CoinGeckoMarketData {
+  id: string;
+  symbol: string;
+  name: string;
+  image: string;
+  current_price: number;
+  market_cap: number;
+  total_volume: number;
+  price_change_percentage_24h: number | null;
+  market_cap_rank: number;
+}
+
 // Create a rate limiter that allows 30 requests per minute per IP
 const limiter = rateLimiter({
   maxRequests: 30,
@@ -60,7 +72,7 @@ export default async function handler(
         const marketCapPercentages = globalResponse.data.data.market_cap_percentage;
         
         // Map and transform the data
-        return response.data.map((coin: any, index: number) => ({
+        return response.data.map((coin: CoinGeckoMarketData, index: number) => ({
           id: coin.id,
           rank: index + 1,
           name: coin.name,

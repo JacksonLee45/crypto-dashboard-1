@@ -17,7 +17,6 @@ type PricePoint = {
 };
 
 type PriceChartProps = {
-  coinId: string;
   coinName: string;
   priceData: PricePoint[];
   isLoading: boolean;
@@ -26,7 +25,6 @@ type PriceChartProps = {
 };
 
 const PriceChart: React.FC<PriceChartProps> = ({ 
-  coinId, 
   coinName, 
   priceData, 
   isLoading,

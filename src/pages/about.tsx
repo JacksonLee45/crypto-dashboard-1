@@ -89,7 +89,7 @@ const AboutPage: React.FC = () => {
                 <h4 className="text-lg font-bold">Why Redis?</h4>
                 <p>
                   Redis caching significantly reduces the number of API calls to CoinGecko, improving 
-                  application performance and ensuring compliance with API rate limits. Upstash's serverless 
+                  application performance and ensuring compliance with API rate limits. Upstash&apos;s serverless 
                   Redis solution integrates perfectly with Next.js and Vercel.
                 </p>
               </div>

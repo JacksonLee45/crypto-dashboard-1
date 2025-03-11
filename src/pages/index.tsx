@@ -7,7 +7,6 @@ import TopCoinsTable from '../components/TopCoinsTable';
 import PriceChart from '../components/PriceChart'; 
 import MarketDominance from '../components/MarketDominance'; 
 import VolumeChart from '../components/VolumeChart'; 
-import NewsFeed from '../components/NewsFeed'; 
 import { useMarketOverview } from '../hooks/useMarketOverview'; 
 import { useTopCoins } from '../hooks/useTopCoins'; 
 import { usePriceData, TimeRange } from '../hooks/usePriceData';
@@ -114,7 +113,6 @@ const Dashboard: React.FC = () => {
           <div className="lg:col-span-2 h-full">
             {priceData && (
               <PriceChart
-                coinId="bitcoin"
                 coinName="Bitcoin"
                 priceData={priceData}
                 isLoading={priceLoading}

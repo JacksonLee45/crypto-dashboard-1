@@ -24,11 +24,6 @@ const FearGreedIndex: React.FC<FearGreedIndexProps> = ({
     return '#B10DC9'; // Extreme Greed - Purple
   };
 
-  const getBackgroundGradient = (val: number) => {
-    const color = getColor(val);
-    return `linear-gradient(90deg, ${color} ${val}%, #f3f4f6 ${val}%)`;
-  };
-
   return (
     <Card>
       <CardHeader className="pb-2">

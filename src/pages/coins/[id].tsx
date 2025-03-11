@@ -7,8 +7,6 @@ import axios from 'axios';
 import { GetServerSideProps } from 'next';
 import { useQuery } from '@tanstack/react-query';
 import { 
-  LineChart, 
-  Line, 
   XAxis, 
   YAxis, 
   CartesianGrid, 
@@ -22,9 +20,8 @@ import {
   CardContent, 
   CardHeader, 
   CardTitle, 
-  CardDescription 
 } from '@/components/ui/card';
-import { PricePoint, TimeRange, usePriceData } from '@/hooks/usePriceData';
+import { TimeRange, usePriceData } from '@/hooks/usePriceData';
 import { Coin } from '@/hooks/useTopCoins';
 
 type CoinDetailProps = {

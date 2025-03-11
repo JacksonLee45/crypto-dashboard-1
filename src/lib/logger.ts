@@ -3,7 +3,7 @@ type LogLevel = 'debug' | 'info' | 'warn' | 'error';
 
 interface LogPayload {
   message: string;
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 class Logger {
@@ -54,49 +54,56 @@ class Logger {
     }
   }
 
-  debug(message: string, meta: Record<string, any> = {}): void {
+  debug(message: string, meta: Record<string, unknown> = {}): void {
     if (!this.shouldLog('debug')) return;
     
     console.debug(this.formatPayload({ message, level: 'debug', ...meta }));
   }
 
-  info(message: string, meta: Record<string, any> = {}): void {
+  info(message: string, meta: Record<string, unknown> = {}): void {
     if (!this.shouldLog('info')) return;
     
     console.info(this.formatPayload({ message, level: 'info', ...meta }));
   }
 
-  warn(message: string, meta: Record<string, any> = {}): void {
+  warn(message: string, meta: Record<string, unknown> = {}): void {
     if (!this.shouldLog('warn')) return;
     
     console.warn(this.formatPayload({ message, level: 'warn', ...meta }));
   }
 
-  error(message: string, meta: Record<string, any> = {}): void {
+  error(message: string, meta: Record<string, unknown> = {}): void {
     if (!this.shouldLog('error')) return;
     
     console.error(this.formatPayload({ message, level: 'error', ...meta }));
   }
 
   // Add request/response logging helpers for API routes
-  logRequest(req: any, meta: Record<string, any> = {}): void {
+  logRequest(req: {
+      url?: string;
+      method?: string;
+      headers?: Record<string, string | string[] | undefined>;
+      query?: Record<string, unknown>;
+      body?: unknown;
+    }, 
+    meta: Record<string, unknown> = {}): void {
     const { url, method, headers, query, body } = req;
     
     this.info('API Request', {
       url,
       method,
       query,
-      headers: {
-        'user-agent': headers['user-agent'],
-        'content-type': headers['content-type'],
+      headers: headers ? {
+        'user-agent': headers['user-agent'] || 'none',
+        'content-type': headers['content-type'] || 'none',
         'x-request-id': headers['x-request-id'] || 'none',
-      },
+      } : undefined,
       body: body ? '(body present)' : undefined,
       ...meta
     });
   }
 
-  logResponse(statusCode: number, responseTime: number, meta: Record<string, any> = {}): void {
+  logResponse(statusCode: number, responseTime: number, meta: Record<string, unknown> = {}): void {
     this.info('API Response', {
       statusCode,
       responseTime: `${responseTime}ms`,
@@ -105,21 +112,21 @@ class Logger {
   }
 
   // Explicitly log cache operations
-  logCacheHit(key: string, meta: Record<string, any> = {}): void {
+  logCacheHit(key: string, meta: Record<string, unknown> = {}): void {
     this.debug('Cache hit', {
       key,
       ...meta
     });
   }
 
-  logCacheMiss(key: string, meta: Record<string, any> = {}): void {
+  logCacheMiss(key: string, meta: Record<string, unknown> = {}): void {
     this.debug('Cache miss', {
       key,
       ...meta
     });
   }
 
-  logCacheSet(key: string, ttl: number, meta: Record<string, any> = {}): void {
+  logCacheSet(key: string, ttl: number, meta: Record<string, unknown> = {}): void {
     this.debug('Cache set', {
       key,
       ttl: `${ttl}s`,

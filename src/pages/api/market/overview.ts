@@ -70,13 +70,21 @@ export default async function handler(
             activeCurrencies: globalData.active_cryptocurrencies,
             marketCapChange: globalData.market_cap_change_percentage_24h_usd
           };
-        } catch (error: any) {
+        } catch (error) {
+          
+          const typedError = error as Error & {
+            response?: {
+              status?: number;
+              data?: unknown;
+            }
+          };
+
           // Log error from external API
           logger.error('Error from CoinGecko API', {
             requestId,
-            statusCode: error.response?.status,
-            error: error.response?.data || error.message,
-            stack: error.stack
+            statusCode: typedError.response?.status,
+            error: typedError.response?.data || typedError.message,
+            stack: typedError.stack
           });
           throw error; // Re-throw to be caught by the outer try/catch
         }
@@ -96,15 +104,17 @@ export default async function handler(
     });
     
     res.status(200).json(data);
-  } catch (error: any) {
+  } catch (error) {
     const responseTime = Math.round(performance.now() - startTime);
     const statusCode = 500;
+    
+    const typedError = error as Error;
     
     // Log the error response
     logger.error('Failed to fetch market overview data', {
       requestId,
-      error: error.message,
-      stack: error.stack,
+      error: typedError.message,
+      stack: typedError.stack,
       statusCode
     });
     

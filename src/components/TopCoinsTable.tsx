@@ -87,7 +87,7 @@ const TopCoinsTable: React.FC<TopCoinsTableProps> = ({ coins = [], isLoading }) 
     const maxPageButtons = 5; // Number of page buttons to show
     
     let startPage = Math.max(1, currentPage - Math.floor(maxPageButtons / 2));
-    let endPage = Math.min(totalPages, startPage + maxPageButtons - 1);
+    const endPage = Math.min(totalPages, startPage + maxPageButtons - 1);
     
     // Adjust if we're at the end
     if (endPage - startPage + 1 < maxPageButtons) {
