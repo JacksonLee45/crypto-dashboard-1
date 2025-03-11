@@ -152,6 +152,7 @@ const CoinDetailPage: React.FC<CoinDetailProps> = ({ initialCoinData }) => {
             <Link href="/" className="hover:text-blue-600">
               Crypto Dashboard
             </Link>
+            <span className='text-sm font-normal text-gray-500'> by Jackson Lee</span>
           </h1>
           <Link href="/" className="text-blue-600 hover:text-blue-800">
             ← Back to Dashboard

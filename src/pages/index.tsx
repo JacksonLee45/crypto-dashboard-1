@@ -85,7 +85,10 @@ const Dashboard: React.FC = () => {
 
       <header className="bg-white shadow">
         <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-          <h1 className="text-3xl font-heading font-bold text-gray-800">Crypto Dashboard</h1>
+          <h1 className="text-3xl font-heading font-bold text-gray-800">
+            Crypto Dashboard
+            <span className='text-sm font-normal text-gray-500'> by Jackson Lee</span>
+          </h1>
           <Link href="/about" className="text-blue-600 font-heading hover:text-blue-800">
             About This Project
           </Link>

@@ -14,10 +14,11 @@ const AboutPage: React.FC = () => {
 
       <header className="bg-white shadow">
         <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-          <h1 className="text-2xl font-bold font-heading text-gray-800">
+          <h1 className="text-3xl font-bold font-heading text-gray-800">
             <Link href="/" className="hover:text-blue-600">
               Crypto Dashboard
             </Link>
+            <span className='text-sm font-normal text-gray-500'> by Jackson Lee</span>
           </h1>
           <Link href="/" className="text-blue-600 font-heading hover:text-blue-800">
             Return to Dashboard
