@@ -76,7 +76,7 @@ const Dashboard: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen font-heading bg-gray-50">
       <Head>
         <title>Crypto Dashboard</title>
         <meta name="description" content="Real-time cryptocurrency dashboard with market data" />
@@ -85,8 +85,8 @@ const Dashboard: React.FC = () => {
 
       <header className="bg-white shadow">
         <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-          <h1 className="text-2xl font-bold text-gray-800">Crypto Dashboard</h1>
-          <Link href="/about" className="text-blue-600 hover:text-blue-800">
+          <h1 className="text-3xl font-heading font-bold text-gray-800">Crypto Dashboard</h1>
+          <Link href="/about" className="text-blue-600 font-heading hover:text-blue-800">
             About This Project
           </Link>
         </div>
@@ -106,9 +106,9 @@ const Dashboard: React.FC = () => {
         )}
 
         {/* Charts Section */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6 h-[410px]">
           {/* Main Price Chart - Takes 2/3 of the width on large screens */}
-          <div className="lg:col-span-2">
+          <div className="lg:col-span-2 h-full">
             {priceData && (
               <PriceChart
                 coinId="bitcoin"
@@ -122,7 +122,7 @@ const Dashboard: React.FC = () => {
           </div>
 
           {/* Market Dominance Chart - Takes 1/3 of the width */}
-          <div>
+          <div className='h-full'>
             <MarketDominance
               data={dominanceData}
               isLoading={coinsLoading}

@@ -136,7 +136,7 @@ const CoinDetailPage: React.FC<CoinDetailProps> = ({ initialCoinData }) => {
   };
   
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen font-heading bg-gray-50">
       <Head>
         <title>{coinData?.name || 'Loading...'} Price and Info | Crypto Dashboard</title>
         <meta 

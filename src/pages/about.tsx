@@ -5,7 +5,7 @@ import Link from 'next/link';
 
 const AboutPage: React.FC = () => {
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen font-heading bg-gray-50">
       <Head>
         <title>About - Crypto Dashboard</title>
         <meta name="description" content="About the Crypto Dashboard project and tech stack" />
@@ -14,12 +14,12 @@ const AboutPage: React.FC = () => {
 
       <header className="bg-white shadow">
         <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-          <h1 className="text-2xl font-bold text-gray-800">
+          <h1 className="text-2xl font-bold font-heading text-gray-800">
             <Link href="/" className="hover:text-blue-600">
               Crypto Dashboard
             </Link>
           </h1>
-          <Link href="/" className="text-blue-600 hover:text-blue-800">
+          <Link href="/" className="text-blue-600 font-heading hover:text-blue-800">
             Return to Dashboard
           </Link>
         </div>
@@ -27,10 +27,10 @@ const AboutPage: React.FC = () => {
 
       <main className="container mx-auto px-4 py-8 max-w-4xl">
         <div className="bg-white rounded-lg shadow-md p-8">
-          <h2 className="text-3xl font-bold mb-6">About This Project</h2>
+          <h2 className="text-3xl font-heading font-bold mb-6">About This Project</h2>
           
           <section className="mb-8">
-            <h3 className="text-2xl font-semibold mb-4">Project Overview</h3>
+            <h3 className="text-2xl font-heading font-semibold mb-4">Project Overview</h3>
             <p className="mb-4">
               This Crypto Dashboard is a portfolio project designed to demonstrate full-stack development 
               skills using modern web technologies. It provides real-time cryptocurrency data, visualizations, 
@@ -43,7 +43,7 @@ const AboutPage: React.FC = () => {
           </section>
           
           <section className="mb-8">
-            <h3 className="text-2xl font-semibold mb-4">Tech Stack</h3>
+            <h3 className="text-2xl font-heading font-semibold mb-4">Tech Stack</h3>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="border rounded-lg p-4">
@@ -72,7 +72,7 @@ const AboutPage: React.FC = () => {
           </section>
           
           <section className="mb-8">
-            <h3 className="text-2xl font-semibold mb-4">Technical Decisions</h3>
+            <h3 className="text-2xl font-heading font-semibold mb-4">Technical Decisions</h3>
             
             <div className="space-y-4">
               <div>
@@ -112,7 +112,7 @@ const AboutPage: React.FC = () => {
           </section>
           
           <section className="mb-8">
-            <h3 className="text-2xl font-semibold mb-4">Learning Outcomes</h3>
+            <h3 className="text-2xl font-heading font-semibold mb-4">Learning Outcomes</h3>
             <ul className="list-disc pl-5 space-y-2">
               <li>Implementing efficient API caching strategies with Redis</li>
               <li>Building responsive data visualizations with Recharts</li>
@@ -124,7 +124,7 @@ const AboutPage: React.FC = () => {
           </section>
           
           <section>
-            <h3 className="text-2xl font-semibold mb-4">Future Enhancements</h3>
+            <h3 className="text-2xl font-heading font-semibold mb-4">Future Enhancements</h3>
             <ul className="list-disc pl-5 space-y-2">
               <li>User authentication for personalized portfolios</li>
               <li>Price alerts and notifications</li>

@@ -62,7 +62,7 @@ const PriceChart: React.FC<PriceChartProps> = ({
   const priceColor = priceChange >= 0 ? '#10b981' : '#ef4444';
 
   return (
-    <Card className="mb-6">
+    <Card className="h-full">
       <CardHeader className="flex flex-row items-center justify-between">
         <CardTitle>{coinName} Price Chart</CardTitle>
         <div className="flex space-x-1">
