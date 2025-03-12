@@ -26,7 +26,7 @@ const AboutPage: React.FC = () => {
         </div>
       </header>
 
-      <main className="container mx-auto px-4 py-8 max-w-4xl">
+      <main className="container mx-auto px-4 py-8 max-w-4xl text-black">
         <div className="bg-white rounded-lg shadow-md p-8">
           <h2 className="text-3xl font-heading font-bold mb-6">About This Project</h2>
           
