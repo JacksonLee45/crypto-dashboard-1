@@ -516,10 +516,15 @@ const CoinDetailPage: React.FC<CoinDetailProps> = ({ initialCoinData }) => {
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const { id } = context.params as { id: string };
+  const { req } = context;
   
   try {
     // Fetch coin data server-side
-    const response = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3000'}/api/coins/${id}`);
+    const protocol = req.headers['x-forwarded-proto'] || 'http';
+    const host = req.headers['x-forwarded-host'] || req.headers.host;
+    const baseUrl = `${protocol}://${host}`;
+
+    const response = await axios.get(`${baseUrl}/api/coins/${id}`);
     
     return {
       props: {
