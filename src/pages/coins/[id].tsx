@@ -157,7 +157,7 @@ const CoinDetailPage: React.FC<CoinDetailProps> = ({ initialCoinData }) => {
         </div>
       </header>
 
-      <main className="container mx-auto px-4 py-8">
+      <main className="container mx-auto px-4 py-8 text-black">
         {isCoinDataLoading ? (
           <div className="flex justify-center py-20">
             <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-500"></div>
