@@ -108,7 +108,7 @@ const Dashboard: React.FC = () => {
         )}
 
         {/* Charts Section */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6 h-[410px]">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
           {/* Main Price Chart - Takes 2/3 of the width on large screens */}
           <div className="lg:col-span-2 h-full">
             {priceData && (
