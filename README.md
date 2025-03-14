@@ -2,8 +2,7 @@
 
 A comprehensive cryptocurrency dashboard featuring real-time market data, interactive visualizations, and a robust API layer with advanced caching strategies.
 
-Checkout the deployed site!
-- [Crypto Dashboard Preview](https://crypto-dashboard-eta-woad.vercel.app/)
+Checkout the deployed site! - [Crypto Dashboard Preview](https://crypto-dashboard-eta-woad.vercel.app/)
 
 ## 🌟 Features
 
