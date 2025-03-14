@@ -1,7 +1,7 @@
 import React from 'react';
 import { 
-  LineChart, 
-  Line, 
+  AreaChart, 
+  Area, 
   XAxis, 
   YAxis, 
   CartesianGrid, 
@@ -31,6 +31,7 @@ const PriceChart: React.FC<PriceChartProps> = ({
   timeframe,
   onTimeframeChange
 }) => {
+
   const formatDate = (timestamp: number) => {
     const date = new Date(timestamp);
     
@@ -130,13 +131,20 @@ const PriceChart: React.FC<PriceChartProps> = ({
           )}
           
           <ResponsiveContainer width="100%" height="100%">
-            <LineChart data={priceData || []}>
+            <AreaChart data={priceData || []}>
+              <defs>
+                <linearGradient id="colorPrice" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor={priceColor} stopOpacity={0.3} />
+                  <stop offset="95%" stopColor={priceColor} stopOpacity={0} />
+                </linearGradient>
+              </defs>
               <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
               <XAxis 
                 dataKey="timestamp" 
                 tickFormatter={formatDate} 
                 tick={{ fontSize: 12 }}
-                tickMargin={10}
+                tickMargin={10}                
+                minTickGap={30}
               />
               <YAxis 
                 dataKey="price" 
@@ -149,15 +157,15 @@ const PriceChart: React.FC<PriceChartProps> = ({
                 formatter={(value: number) => [formatPrice(value), 'Price']}
                 labelFormatter={(label: number) => new Date(label).toLocaleString()}
               />
-              <Line 
+              <Area 
                 type="monotone" 
                 dataKey="price" 
-                stroke={priceColor} 
-                dot={false} 
+                stroke={priceChange >= 0 ? '#10b981' : '#ef4444'} 
+                fillOpacity={1}
+                fill="url(#colorPrice)"
                 strokeWidth={2}
-                activeDot={{ r: 6 }}
               />
-            </LineChart>
+            </AreaChart>
           </ResponsiveContainer>
         </div>
       </CardContent>

@@ -260,6 +260,7 @@ const CoinDetailPage: React.FC<CoinDetailProps> = ({ initialCoinData }) => {
                           tickFormatter={formatDate} 
                           tick={{ fontSize: 12 }}
                           tickMargin={10}
+                          minTickGap={100}
                         />
                         <YAxis 
                           dataKey="price" 
