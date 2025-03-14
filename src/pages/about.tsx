@@ -179,7 +179,7 @@ const AboutPage: React.FC = () => {
               <div>
                 <h4 className="text-lg font-bold">Redis with Upstash</h4>
                 <p>
-                  Upstash's serverless Redis solution provides a scalable, maintenance-free caching layer
+                  Upstash&apos;s serverless Redis solution provides a scalable, maintenance-free caching layer
                   that integrates perfectly with serverless architectures, offering persistence, low latency,
                   and cost efficiency without operational overhead.
                 </p>

@@ -1,10 +1,9 @@
-CAUTION: External Email
-
 # Crypto Dashboard
 
 A comprehensive cryptocurrency dashboard featuring real-time market data, interactive visualizations, and a robust API layer with advanced caching strategies.
 
-![Crypto Dashboard Preview](https://crypto-dashboard-eta-woad.vercel.app/)
+Checkout the deployed site!
+- [Crypto Dashboard Preview](https://crypto-dashboard-eta-woad.vercel.app/)
 
 ## 🌟 Features
 
