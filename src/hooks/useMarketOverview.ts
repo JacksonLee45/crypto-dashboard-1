@@ -21,6 +21,5 @@ export function useMarketOverview() {
     refetchInterval: 60000, // Refetch every 60 seconds
     staleTime: 30000, // Data is considered fresh for 30 seconds
     retry: 3, // If fetching fails, retry up to 3 times
-    //keepPreviousData: true //Display cached data while refetching (note: renamed to placeholderData in newer versions) // TODO: uncomment this line and make it work
   });
 }

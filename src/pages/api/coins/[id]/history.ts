@@ -56,7 +56,7 @@ async function handler(
       `coin:${id}:history:${rangeValue}`,
       async () => {
         // Fetch price history from CoinGecko
-        const response = await axios.get( //might need get<CoinGeckoHistoryData>(... here
+        const response = await axios.get(
           `https://api.coingecko.com/api/v3/coins/${id}/market_chart`,
           {
             params: {
