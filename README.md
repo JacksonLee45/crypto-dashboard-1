@@ -1,40 +1,192 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/pages/api-reference/create-next-app).
+CAUTION: External Email
 
-## Getting Started
+# Crypto Dashboard
 
-First, run the development server:
+A comprehensive cryptocurrency dashboard featuring real-time market data, interactive visualizations, and a robust API layer with advanced caching strategies.
 
+![Crypto Dashboard Preview](https://crypto-dashboard-eta-woad.vercel.app/)
+
+## 🌟 Features
+
+- **Advanced API Infrastructure**
+  - Redis-powered caching system with TTL-based cache invalidation
+  - IP-based rate limiting to prevent API abuse
+  - Request tracing with unique IDs for debugging and monitoring
+  - Comprehensive security headers (CSP, HSTS, X-Content-Type-Options)
+  - Structured error handling and logging
+
+- **Real-time Cryptocurrency Data**
+  - Market overview with key metrics
+  - Price charts with multiple timeframes
+  - Market dominance visualization
+  - Detailed coin information and statistics
+  - Trading volume analysis
+
+- **Responsive UI & Data Visualization**
+  - Interactive charts powered by Recharts
+  - Responsive design for all device sizes
+  - Optimized data loading states
+  - Client-side caching with React Query
+
+## 🛠️ Tech Stack
+
+### Frontend
+- **React 19** with TypeScript
+- **Next.js 15** for server-side rendering and routing
+- **React Query** for data fetching, caching, and state management
+- **Recharts** for interactive data visualization
+- **Tailwind CSS** with shadcn/ui components for styling
+
+### Backend & Infrastructure
+- **Next.js API Routes** for serverless API endpoints
+- **Redis** (Upstash) for distributed caching
+- **API middlewares** for rate limiting, logging, and security
+- **CoinGecko API** integration for cryptocurrency data
+- **TypeScript** for type safety throughout the codebase
+
+## 🚀 Getting Started
+
+### Prerequisites
+- Node.js 18.x or higher
+- npm or yarn
+- [Optional] Upstash Redis account for caching
+
+### Installation
+
+1. Clone the repository
+```bash
+git clone https://github.com/JacksonLee45/crypto-dashboard-1.git
+cd crypto-dashboard
+```
+
+2. Install dependencies
+```bash
+npm install
+# or
+yarn install
+```
+
+3. Set up environment variables
+Create a `.env.local` file in the root directory and add:
+```
+UPSTASH_REDIS_REST_URL=your_redis_url
+UPSTASH_REDIS_REST_TOKEN=your_redis_token
+```
+
+4. Run the development server
 ```bash
 npm run dev
 # or
 yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+5. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+## 🏗️ Architecture
 
-[API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+### API Layer Architecture
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) instead of React pages.
+The application follows a multi-layered API architecture:
 
-This project uses [`next/font`](https://nextjs.org/docs/pages/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. **Client Request** → Enters the application 2. **Middleware Layer**
+   - Request parsing and validation
+   - IP-based rate limiting
+   - Request ID generation and propagation
+   - Security headers application
+3. **API Route Handler**
+   - Cache check and retrieval
+   - External API calls (if needed)
+   - Data transformation and normalization
+   - Response formatting
+4. **Cache Management Layer**
+   - TTL-based cache strategies
+   - Fallback mechanisms
+   - Background refresh patterns
 
-## Learn More
+### Caching Strategy
 
-To learn more about Next.js, take a look at the following resources:
+The application employs a sophisticated caching strategy:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn-pages-router) - an interactive Next.js tutorial.
+- **Short-lived cache** (60s) for volatile data like current prices
+- **Medium-lived cache** (5min) for market overviews and listings
+- **Long-lived cache** (30min) for historical data and infrequently changing information
+- **Very long-lived cache** (6h) for static content like coin descriptions
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Each cache strategy is implemented with appropriate TTL values and includes:
+- Automatic cache invalidation
+- Graceful handling of cache misses
+- Request tracing through cache operations
 
-## Deploy on Vercel
+### Rate Limiting Implementation
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+All API endpoints are protected by a Redis-based rate limiting system:
+- IP address tracking for identifying clients
+- Sliding window algorithm for accurate tracking
+- Different rate limits based on endpoint resource requirements
+- Clear rate limit headers for client feedback
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/pages/building-your-application/deploying) for more details.
+## 📚 API Documentation
+
+### Endpoints
+
+#### Market Overview
+```
+GET /api/market/overview
+```
+Returns global cryptocurrency market stats including total market cap, 24h volume, and BTC dominance.
+
+#### Top Cryptocurrencies
+```
+GET /api/coins?limit=100
+```
+Returns a list of top cryptocurrencies with price, volume, and market cap data.
+
+#### Coin Details
+```
+GET /api/coins/{id}
+```
+Returns detailed information about a specific cryptocurrency.
+
+#### Price History
+```
+GET /api/coins/{id}/history?range=7d
+```
+Returns historical price data for a specific cryptocurrency.
+Available ranges: `1d`, `7d`, `30d`, `90d`, `1y`
+
+## 📈 Performance Optimizations
+
+- **Server-side rendering** for initial page load performance
+- **Incremental Static Regeneration** for static content
+- **Multi-tiered caching** (Redis + React Query) to minimize API calls
+- **Optimized image loading** with Next.js Image component
+- **Efficient re-renders** with React memo and callback optimizations
+
+## 🔒 Security Features
+
+- **Content Security Policy** to prevent XSS attacks
+- **Strict Transport Security** to enforce HTTPS
+- **X-Content-Type-Options** to prevent MIME type sniffing
+- **X-Frame-Options** to prevent clickjacking
+- **Permissions Policy** to limit browser features
+
+## 💡 Future Enhancements
+
+- User authentication and personalized dashboards
+- WebSocket integration for real-time price updates
+- Price alerts and notifications system
+- Integration with additional data sources
+- Advanced analytics and portfolio tracking
+- Dark mode with persistent user preferences
+
+## 📝 License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## 🙏 Acknowledgements
+
+- [CoinGecko API](https://www.coingecko.com/en/api) for cryptocurrency data
+- [Upstash](https://upstash.com/) for Redis caching
+- [shadcn/ui](https://ui.shadcn.com/) for UI components
+- [Tailwind CSS](https://tailwindcss.com/) for styling
+- [Recharts](https://recharts.org/en-US/) for data visualization
