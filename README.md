@@ -4,7 +4,7 @@ A comprehensive cryptocurrency dashboard featuring real-time market data, intera
 
 Checkout the deployed site! - [Crypto Dashboard Preview](https://crypto-dashboard-eta-woad.vercel.app/)
 
-## 🌟 Features
+## Features
 
 - **Advanced API Infrastructure**
   - Redis-powered caching system with TTL-based cache invalidation
@@ -26,7 +26,7 @@ Checkout the deployed site! - [Crypto Dashboard Preview](https://crypto-dashboar
   - Optimized data loading states
   - Client-side caching with React Query
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 ### Frontend
 - **React 19** with TypeScript
@@ -42,7 +42,7 @@ Checkout the deployed site! - [Crypto Dashboard Preview](https://crypto-dashboar
 - **CoinGecko API** integration for cryptocurrency data
 - **TypeScript** for type safety throughout the codebase
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 - Node.js 18.x or higher
@@ -80,7 +80,7 @@ yarn dev
 
 5. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result
 
-## 🏗️ Architecture
+## Architecture
 
 ### API Layer Architecture
 
@@ -123,7 +123,7 @@ All API endpoints are protected by a Redis-based rate limiting system:
 - Different rate limits based on endpoint resource requirements
 - Clear rate limit headers for client feedback
 
-## 📚 API Documentation
+## API Documentation
 
 ### Endpoints
 
@@ -160,7 +160,7 @@ Available ranges: `1d`, `7d`, `30d`, `90d`, `1y`
 - **Optimized image loading** with Next.js Image component
 - **Efficient re-renders** with React memo and callback optimizations
 
-## 🔒 Security Features
+## Security Features
 
 - **Content Security Policy** to prevent XSS attacks
 - **Strict Transport Security** to enforce HTTPS
@@ -168,7 +168,7 @@ Available ranges: `1d`, `7d`, `30d`, `90d`, `1y`
 - **X-Frame-Options** to prevent clickjacking
 - **Permissions Policy** to limit browser features
 
-## 💡 Future Enhancements
+## Future Enhancements
 
 - User authentication and personalized dashboards
 - WebSocket integration for real-time price updates
@@ -177,11 +177,11 @@ Available ranges: `1d`, `7d`, `30d`, `90d`, `1y`
 - Advanced analytics and portfolio tracking
 - Dark mode with persistent user preferences
 
-## 📝 License
+## License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
 
-## 🙏 Acknowledgements
+## Acknowledgements
 
 - [CoinGecko API](https://www.coingecko.com/en/api) for cryptocurrency data
 - [Upstash](https://upstash.com/) for Redis caching
